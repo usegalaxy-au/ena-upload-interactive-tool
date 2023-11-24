@@ -199,7 +199,8 @@ import FormField from './fields/FormField.vue'
 import Modal from './Modal.vue'
 import { useFormStore } from '@/stores/forms'
 
-const INIT_ROWS = 5;
+const INIT_ROWS = 5
+const UNDO_CHECKPOINT_LIMIT = 10
 const formStore = useFormStore()
 
 export default {
@@ -244,51 +245,51 @@ export default {
     document.addEventListener('keydown', (event) => {
       // Bind ctrl+z to setDataUndo
       if (event.ctrlKey && event.key === 'z') {
+        event.preventDefault()
         this.setDataUndo()
       }
     })
   },
   methods: {
-    setCellData(rowIx, fieldName, value) {
-      this.lastFocused = {
-        row: rowIx,
-        field: fieldName,
-      }
-      this.appendUndoData()
-      console.log('this.undoData:')
-      console.log(this.undoData)
-      formStore.$patch( (state) => {
-        state[this.formStoreKey][rowIx][fieldName] = value
-        state.hasChanged = true
-      })
-      this.dataIsValid = null
-    },
     setData(data) {
-      this.appendUndoData()
-      console.log('this.undoData:')
+      this.makeUndoCheckpoint()
+      console.log('[setData] this.undoData:')
       console.log(this.undoData)
       formStore.$patch( (state) => {
         state[this.formStoreKey] = data
         state.hasChanged = true
       })
     },
-    appendUndoData() {
-      if (!this.data.length) {
-        console.log("Not appending undoData: !length")
-        return
-      }
-      if (this.data !== this.undoData[0]) {
-        this.undoData = [this.data, ...this.undoData.slice(0,5)]
-      } else {
-        // ! FIX THIS:
-        console.log("Not appending undoData: this.data === this.undoData[0]")
-      }
-    },
     setDataUndo() {
       if (this.undoData.length) {
-        const data = this.undoData.shift()
-        this.setData(data)
-        this.undoData.shift()
+        formStore.$patch( (state) => {
+          state[this.formStoreKey] = this.undoData.shift()
+          state.hasChanged = true
+        })
+      }
+    },
+    setCellData(rowIx, fieldName, value) {
+      this.lastFocused = {
+        row: rowIx,
+        field: fieldName,
+      }
+      this.makeUndoCheckpoint()
+      formStore.$patch( (state) => {
+        state[this.formStoreKey][rowIx][fieldName] = value
+        state.hasChanged = true
+      })
+      this.dataIsValid = null
+    },
+    makeUndoCheckpoint() {
+      if (!this.data.length) {
+        console.log("[makeUndoCheckpoint] Not appending undoData: !length")
+        return
+      }
+      // Convert vue data to plain js:
+      const thisCheckpoint = this.data.map( (row) => ({...row}) )
+      if (thisCheckpoint !== this.undoData[0]) {
+        console.log("[makeUndoCheckpoint] Appending undoData")
+        this.undoData = [thisCheckpoint, ...this.undoData.slice(0, UNDO_CHECKPOINT_LIMIT)]
       }
     },
     idToTitle(id) {
@@ -490,6 +491,7 @@ export default {
           this.dataIsValid = this.dataIsValid && validity
         })
       })
+      console.log('[validateTable] this.dataIsValid:', this.dataIsValid)
     },
   },
 }
@@ -579,6 +581,7 @@ export default {
   .clear-buttons .options {
     display: none;
     position: absolute;
+    z-index: 1;
     top: 2.3rem;
     left: 4px;
     transform: translateY(3px);

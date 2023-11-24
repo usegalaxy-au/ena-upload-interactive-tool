@@ -23,12 +23,3 @@ app.use(router)
 app.use(vuetify)
 
 app.mount('#app')
-
-document.fonts.onloadingdone = () => {
-  const icons = document.getElementsByClassName('material-symbols-outlined');
-  for (let el of icons) {
-    el.style.opacity = 1;
-    el.style.maxWidth = 'unset';
-    el.style.overflow = 'visible';
-  }
-}
