@@ -15,13 +15,13 @@
 - [x] Tips for navigating the table
 - [x] Field validation
 
-- [ ] Fix material icons rendering
+- [x] Fix material icons rendering
 - [ ] Switch output to TSV
-- [ ] Switch tempate description to use `checklist_overview.json`
 - [ ] Should required fields be displayed first in table view?
     - YES + lighter grey header for optional
 - [ ] "Submit" warning on validation failed
 - [ ] Study form as table
+- [ ] Switch tempate description to use `checklist_overview.json`
 - [ ] Implement template selection (tool XML or client??)
     - Client
 - [ ] Load data tables as tool input

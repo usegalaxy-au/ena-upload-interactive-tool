@@ -13,18 +13,14 @@ ENA_OUTPUT_STUDY='${study_table}'
 ENA_OUTPUT_EXPERIMENT='${experiment_table}'
 ENA_OUTPUT_RUN='${run_table}'
 ENA_OUTPUT_SAMPLE='${sample_table}'
-ENA_TEMPLATE_ID='${template_id}'
 /app/run.sh
 
     ]]></command>
-    <inputs>
-        <input name="template_id" />
-    </inputs>
     <outputs>
-        <data name="study_table" label="Study table" format="csv" />
-        <data name="experiment_table" label="Experiment table" format="csv" />
-        <data name="run_table" label="Run table" format="csv" />
-        <data name="sample_table" label="Sample table" format="csv" />
+        <data name="study_table" label="Study table" format="tabular" />
+        <data name="experiment_table" label="Experiment table" format="tabular" />
+        <data name="run_table" label="Run table" format="tabular" />
+        <data name="sample_table" label="Sample table" format="tabular" />
     </outputs>
     <help>
 <![CDATA[

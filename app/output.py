@@ -18,7 +18,7 @@ OUTFILES = {
     form_name: Path(
         os.environ.get(
             f'ENA_OUTPUT_{form_name.upper()}',
-            f'/tmp/ena-upload-{form_name}.csv'))
+            f'/tmp/ena-upload-{form_name}.tsv'))
     for form_name in FORM_NAMES
 }
 
@@ -37,7 +37,7 @@ def write_form(data, columns, filepath):
     """Write given form to file."""
     print(f"Writing {len(data)} row to {filepath}...")
     with open(filepath, mode="w", newline='') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, delimiter='\t')
         writer.writerow(columns)
         for row in data:
             writer.writerow([row.get(col) for col in columns])
