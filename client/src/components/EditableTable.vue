@@ -253,8 +253,6 @@ export default {
   methods: {
     setData(data) {
       this.makeUndoCheckpoint()
-      console.log('[setData] this.undoData:')
-      console.log(this.undoData)
       formStore.$patch( (state) => {
         state[this.formStoreKey] = data
         state.hasChanged = true
@@ -282,13 +280,11 @@ export default {
     },
     makeUndoCheckpoint() {
       if (!this.data.length) {
-        console.log("[makeUndoCheckpoint] Not appending undoData: !length")
         return
       }
       // Convert vue data to plain js:
       const thisCheckpoint = this.data.map( (row) => ({...row}) )
       if (thisCheckpoint !== this.undoData[0]) {
-        console.log("[makeUndoCheckpoint] Appending undoData")
         this.undoData = [thisCheckpoint, ...this.undoData.slice(0, UNDO_CHECKPOINT_LIMIT)]
       }
     },
@@ -491,7 +487,6 @@ export default {
           this.dataIsValid = this.dataIsValid && validity
         })
       })
-      console.log('[validateTable] this.dataIsValid:', this.dataIsValid)
     },
   },
 }
