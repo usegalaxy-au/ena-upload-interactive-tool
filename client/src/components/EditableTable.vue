@@ -36,7 +36,11 @@
         </thead>
         <tbody>
           <tr v-for="(row, rowIx) in data" :key="rowIx">
-            <td v-for="field in schema.fields" :key="field.name + rowIx">
+            <td
+              v-for="field in schema.fields"
+              :key="field.name + rowIx"
+              :class="field.field_type === 'TEXT_AREA_FIELD' ? 'textarea' : ''"
+            >
               <FormField
                 display="table"
                 :field="field"
@@ -516,6 +520,7 @@ export default {
   }
   .editableTable .table-wrapper {
     max-width: 100%;
+    min-height: 200px;
     overflow-x: auto;
     font-size: .8rem;
     white-space: nowrap;
@@ -537,6 +542,10 @@ export default {
     padding: 0 2px;
     height: 2rem;
     overflow: visible;
+    min-width: 200px;
+  }
+  .editableTable td.textarea {
+    min-width: 300px;
   }
   span.info {
     color: #aaa;

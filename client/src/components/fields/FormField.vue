@@ -188,7 +188,6 @@ export default {
   textarea.form-control:focus {
     z-index: 2;
     height: 145px;
-    width: 300px;
   }
   .noborder {
     border: none;
