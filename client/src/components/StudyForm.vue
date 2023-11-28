@@ -10,21 +10,15 @@
   <div v-else>
     <p>{{ this.schema.description }}</p>
 
-    <FormField
-      v-for="field in this.schema.fields"
-      :key="field.name"
-      :field="field"
-      :inputValue="data[0][field.name]"
-      @blur="setFieldValue(field.name, $event.target.value)"
-    />
 
-    <a class="btn btn-primary" href="/experiment">Next</a>
+    <EditableTable v-if="schema" :schema="schema" :formStoreKey="this.formName" />
+
+    <RouterLink class="btn btn-primary my-5" to="/experiment">Continue</RouterLink>
 
     <!-- For debugging state: -->
     <!-- <p>Data:</p><pre>{{ data }}</pre> -->
 
     <!-- From debugging schema: -->
-
     <!-- <p><em>Rendered from the following spec:</em></p>
     <pre style="color: grey;">{{ this.schema }}</pre> -->
 
@@ -34,7 +28,7 @@
 <script>
   import { useSchemaStore } from '@/stores/schema'
   import { useFormStore } from '@/stores/forms'
-  import FormField from './fields/FormField.vue'
+  import EditableTable from '@/components/EditableTable.vue'
 
   const store = useSchemaStore()
   const formStore = useFormStore()
@@ -42,17 +36,18 @@
   export default {
     name: 'StudyForm',
     components: {
-      FormField: FormField,
+      EditableTable: EditableTable,
     },
     data() {
       return {
         schema: null,
-        formStoreKey: 'study',
+        formName: 'study',
+        selectedTemplate: null,
       }
     },
     computed: {
       data() {
-        return formStore.getFormData(this.formStoreKey)
+        return formStore.getFormData(this.formName)
       },
     },
     mounted() {
@@ -61,15 +56,16 @@
         if (!this.data.length) {
           const blankRow = schema.fields.reduce( (obj, field) => ({...obj, [field.name]: ''}), {})
           formStore.$patch( (state) => {
-            state[this.formStoreKey].push(blankRow)
+            state[this.formName].push(blankRow)
           })
         }
       })
+      store.getTemplateId().then( id => this.selectedTemplate = id )
     },
     methods: {
       setFieldValue(field_name, value) {
         formStore.$patch( (state) => {
-          state[this.formStoreKey][0][field_name] = value
+          state[this.formName][0][field_name] = value
           state.hasChanged = true
         })
       },

@@ -98,11 +98,39 @@ export const useFormStore = defineStore('formData', {
     setFormData(formName, data) {
       this[formName] = data
     },
+    clearFormData(formName) {
+      if (formName) {
+        this[formName] = []
+        return
+      }
+      this.study = []
+      this.experiment = []
+      this.run = []
+      this.sample = []
+    },
     loadExampleData() {
       this.study = EXAMPLE_DATA.study
       this.experiment = EXAMPLE_DATA.experiment
       this.run = EXAMPLE_DATA.run
       this.sample = EXAMPLE_DATA.sample
+    },
+    hasFormData(formName) {
+      if (formName) {
+        return this[formName].length > 0
+      }
+      const cellCount = [
+        this.study,
+        this.experiment,
+        this.run,
+        this.sample,
+      ].reduce((acc, table) => {
+        return acc + table.reduce((acc, row) => {
+          return acc + Object.values(row).reduce((count, cellVal) => {
+            return count + cellVal.length, 0
+          }, 0)
+        }, 0)
+      }, 0)
+      return cellCount > 0
     }
   }
 })

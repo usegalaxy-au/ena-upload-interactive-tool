@@ -5,12 +5,8 @@
 
   <div v-else>
     <p>{{ schema.description }}</p>
-
     <EditableTable v-if="schema" :schema="schema" :formStoreKey="this.formName" />
-
-    <br>
-    <br>
-    <a class="btn btn-primary" href="/submit">Next</a>
+    <RouterLink class="btn btn-primary my-5" to="/submit">Continue</RouterLink>
   </div>
 </template>
 

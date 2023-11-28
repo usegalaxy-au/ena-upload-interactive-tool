@@ -4,30 +4,31 @@
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Intro</RouterLink>
-          <RouterLink to="/study">Study</RouterLink>
-          <RouterLink to="/experiment">Experiment</RouterLink>
-          <RouterLink to="/run">Run</RouterLink>
-          <RouterLink to="/sample">Sample</RouterLink>
-          <RouterLink to="/submit">Finish</RouterLink>
-          <span v-if="this.schema" class="template-details">
-            Template {{ this.schema.identifier }}
+          <component :is="templateInfo ? 'RouterLink' : 'a'" to="/study">Study</component>
+          <component :is="templateInfo ? 'RouterLink' : 'a'" to="/experiment">Experiment</component>
+          <component :is="templateInfo ? 'RouterLink' : 'a'" to="/run">Run</component>
+          <component :is="templateInfo ? 'RouterLink' : 'a'" to="/sample">Sample</component>
+          <component :is="templateInfo ? 'RouterLink' : 'a'" to="/submit">Finish</component>
+
+          <span v-if="this.templateInfo" class="template-details">
+            {{ this.templateInfo.accession }}
             <v-tooltip
               activator="parent"
               location="bottom"
-              :max-width="this.schema.description.length < 200 ? 300 : 600"
+              :max-width="this.templateInfo.description.length < 200 ? 300 : 600"
               style="overflow-wrap: break-word;"
             >
               <p class="lead">
-                {{ this.schema.title }}
+                {{ this.templateInfo.name }}
               </p>
-              {{ this.schema.description }}
+              {{ this.templateInfo.description }}
             </v-tooltip>
           </span>
         </nav>
       </div>
     </header>
 
-    <RouterView />
+    <RouterView @template-change="templateChange"/>
 
   </main>
 </template>
@@ -43,17 +44,16 @@ export default {
   },
   data() {
     return {
-      schema: null,
+      templateInfo: null,
     }
   },
-  mounted() {
-    import('@/stores/schema.js')
-      .then( m => {
-        const { useSchemaStore } = m;
-        const schemaStore = useSchemaStore();
-        schemaStore.getSchema().then( data => this.schema = data )
-      })
-  },
+  methods: {
+    templateChange(templateInfo) {
+      console.log("App.vue:templateChange called with templateInfo:")
+      console.log(templateInfo)
+      this.templateInfo = templateInfo;
+    }
+  }
 };
 </script>
 

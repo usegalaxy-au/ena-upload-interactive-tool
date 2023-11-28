@@ -4,6 +4,6 @@ import LandingPage from '../components/LandingPage.vue'
 
 <template>
   <main>
-    <LandingPage />
+    <LandingPage @template-change="(templateInfo) => $emit('template-change', templateInfo)"/>
   </main>
 </template>
