@@ -22,12 +22,12 @@
 - [x] Study form as table
 - [x] Redirect to /intro if no templateInfo
 
-- [ ] Rebuild and push docker image, update tool on dev
+- [x] Rebuild and push docker image, update tool on dev
 
 - [ ] FIX fill cell down on <select>
-- [ ] Fill row down button/action
-- [ ] Pre-submit validation tracking
 - [ ] Should required fields be displayed first in table view?
     - YES + lighter grey header for optional
+- [ ] Pre-submit validation tracking
 - [ ] "Submit" warning on validation failed
 - [ ] Load data tables as tool input
+- [ ] Fill row down button/action

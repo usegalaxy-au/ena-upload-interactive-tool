@@ -1,4 +1,5 @@
 <tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5">
+    <description>create tables for the ENA upload tool from metadata templates</description>
     <requirements>
         <container type="docker">neoformit/ena-upload:v1.0</container>
     </requirements>
@@ -9,11 +10,21 @@
     </entry_points>
     <command detect_errors="exit_code"><![CDATA[
 
-ENA_OUTPUT_STUDY='${study_table}'
-ENA_OUTPUT_EXPERIMENT='${experiment_table}'
-ENA_OUTPUT_RUN='${run_table}'
-ENA_OUTPUT_SAMPLE='${sample_table}'
+#set ena_output_study = "/app/study_table.tsv"
+#set ena_output_experiment = "/app/experiment_table.tsv"
+#set ena_output_run = "/app/run_table.tsv"
+#set ena_output_sample = "/app/sample_table.tsv"
+
+ENA_OUTPUT_STUDY='$ena_output_study'
+ENA_OUTPUT_EXPERIMENT='$ena_output_experiment'
+ENA_OUTPUT_RUN='$ena_output_run'
+ENA_OUTPUT_SAMPLE='$ena_output_sample'
 /app/run.sh
+
+&& cp $ena_output_study      '${study_table}'
+&& cp $ena_output_experiment '${experiment_table}'
+&& cp $ena_output_run        '${run_table}'
+&& cp $ena_output_sample     '${sample_table}'
 
     ]]></command>
     <outputs>

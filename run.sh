@@ -10,6 +10,6 @@ while [[ ! -f "$ENA_OUTPUT_STUDY" ]]; do
     sleep 0.25
 done
 
-sleep 0.25
+sleep 5
 
 exit 0
