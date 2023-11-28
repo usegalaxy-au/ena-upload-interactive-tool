@@ -10,15 +10,20 @@
       in the proceeding tabs.
     </p>
 
+    <p class="alert alert-warning">
+      <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
+      Do not refresh your browser while using this tool. Data is not saved until you generate files in the "Finish" tab.
+      If you want to save your work, you can generate with incomplete tables and continue later with a new instance of the tool.
+    </p>
+
     <p v-if="hasFormData" class="alert alert-danger">
       You have entered data for this form. Changing the template will result in loss of data.
     </p>
 
 
     <div class="my-5">
-      <label for="templateSelect">Please select a metadata template</label>
       <select class="custom-select" id="templateSelect" @input="selectTemplate($event)" v-model="this.selectedTemplate">
-        <option value=""></option>
+        <option value="">Select a template</option>
         <option v-for="template in templateList" :key="template.accession" :value="template.accession">
           {{ template.accession + ': ' + template.name }}
         </option>
