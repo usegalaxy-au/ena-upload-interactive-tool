@@ -1,7 +1,7 @@
 <template>
   <h1>Study</h1>
 
-  <button class="btn btn-primary my-5" @click="this.loadExampleData">
+  <button class="btn btn-warning my-5" @click="this.loadExampleData">
     Load example data
   </button>
 
@@ -9,7 +9,6 @@
 
   <div v-else>
     <p>{{ this.schema.description }}</p>
-
 
     <EditableTable v-if="schema" :schema="schema" :formStoreKey="this.formName" />
 
@@ -42,7 +41,6 @@
       return {
         schema: null,
         formName: 'study',
-        selectedTemplate: null,
       }
     },
     computed: {
@@ -52,6 +50,9 @@
     },
     mounted() {
       store.getSchema('study').then( schema => {
+        if (!schema) {
+          this.$router.push('/')
+        }
         this.schema = schema
         if (!this.data.length) {
           const blankRow = schema.fields.reduce( (obj, field) => ({...obj, [field.name]: ''}), {})
@@ -60,7 +61,6 @@
           })
         }
       })
-      store.getTemplateId().then( id => this.selectedTemplate = id )
     },
     methods: {
       setFieldValue(field_name, value) {

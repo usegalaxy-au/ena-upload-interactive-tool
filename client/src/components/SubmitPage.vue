@@ -33,6 +33,11 @@ export default {
       const { getFormData } = useFormStore()
       const { getSchema } = useSchemaStore()
       this.schema = await getSchema()
+
+      if (!this.schema) {
+        this.$router.push('/')
+      }
+
       const formState = await getFormData()
       const cleaned_forms = this.clean_forms(formState)
       return {

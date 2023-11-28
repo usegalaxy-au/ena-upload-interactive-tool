@@ -33,6 +33,9 @@
     mounted() {
       schemaStore.getSchema(this.formName)
         .then( data => {
+          if (!data) {
+            this.$router.push('/')
+          }
           this.schema = data
         })
     },

@@ -23,7 +23,7 @@
 
     <div class="my-5">
       <select class="custom-select" id="templateSelect" @input="selectTemplate($event)" v-model="this.selectedTemplate">
-        <option value="">Select a template</option>
+        <option :value="null">Select a template</option>
         <option v-for="template in templateList" :key="template.accession" :value="template.accession">
           {{ template.accession + ': ' + template.name }}
         </option>

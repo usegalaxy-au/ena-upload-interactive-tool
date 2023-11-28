@@ -24,6 +24,7 @@
 
 - [ ] Rebuild and push docker image, update tool on dev
 
+- [ ] FIX fill cell down on <select>
 - [ ] Fill row down button/action
 - [ ] Pre-submit validation tracking
 - [ ] Should required fields be displayed first in table view?
