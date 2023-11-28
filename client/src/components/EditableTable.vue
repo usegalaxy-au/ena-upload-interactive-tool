@@ -251,8 +251,10 @@ export default {
       return formStore.getFormData(this.formStoreKey)
     },
     tableControlCssProps() {
+      const topRem = 2.44 * this.data.length
+      console.log("tableControlCssProps topRem: ", topRem)
       return {
-        'bottom': this.tableOverflow ? '1.3rem' : '0.3rem',
+        'top': `${topRem}rem`,
       }
     }
   },
