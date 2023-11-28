@@ -21,9 +21,9 @@
 - [x] Rebuild and push docker image, update tool on dev
 - [x] FIX fill cell down on <select>
 - [x] Js refresh page alert
+- [x] Required columns displayed first in table view
+- [x] Required column th different colour
 
-- [ ] Should required fields be displayed first in table view?
-    - YES + lighter grey header for optional
 - [ ] Pre-submit validation tracking
 - [ ] "Submit" warning on validation failed
 - [ ] Load data tables as tool input

@@ -17,9 +17,20 @@ export const useSchemaStore = defineStore('schemaData', () => {
       return null
     }
     if (!fetched.value) {
-      data.value.schema = await get(`/schema/template/${data.value.selectedTemplate}`).then(
+      const schema = await get(`/schema/template/${data.value.selectedTemplate}`).then(
         data => data.schema
       )
+      // Place mandatory fields first
+      const sortFieldsByRequired = (a, b) => {
+        if (a.cardinality === b.cardinality) return 0
+        if (a.cardinality === 'mandatory') return -1
+        return 1
+      }
+      schema.study.fields = schema.study.fields.sort(sortFieldsByRequired)
+      schema.experiment.fields = schema.experiment.fields.sort(sortFieldsByRequired)
+      schema.run.fields = schema.run.fields.sort(sortFieldsByRequired)
+      schema.sample.fields = schema.sample.fields.sort(sortFieldsByRequired)
+      data.value.schema = schema
       fetched.value = true
     }
     if (key) {

@@ -4,7 +4,7 @@
       <table v-if="schema">
         <thead>
           <tr>
-            <th v-for="field in schema.fields" :key="field.name">
+            <th v-for="field in schema.fields" :key="field.name" :class="field.cardinality === 'mandatory' ? 'required' : ''">
               <div class="d-flex">
                 <div class="col p-0">
                   {{ idToTitle(field.name) }}
@@ -538,6 +538,9 @@ export default {
   .editableTable th {
     padding: 0.5rem;
     background: #eee;
+  }
+  .editableTable th.required {
+    background: #bdc;
   }
   .editableTable th, .editableTable td {
     border: 1px solid #dee2e6;
