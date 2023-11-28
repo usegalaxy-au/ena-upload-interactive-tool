@@ -24,6 +24,7 @@
 
 - [ ] Rebuild and push docker image, update tool on dev
 
+- [ ] Fill row down button/action
 - [ ] Pre-submit validation tracking
 - [ ] Should required fields be displayed first in table view?
     - YES + lighter grey header for optional

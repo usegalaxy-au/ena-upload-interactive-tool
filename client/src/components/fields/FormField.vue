@@ -1,5 +1,5 @@
 <template>
-  <!-- Form view: -->
+  <!-- Form view (redundant) -->
   <div v-if="display === 'form'" class="form-group">
     <label :for="field.name">
       {{ this.capitalize(field.name) }}
@@ -17,7 +17,6 @@
       :class="getInputClass(field.field_type)"
       :id="field.name"
       :name="field.name"
-      :placeholder="field.placeholder"
       :value="inputValue"
       @blur="$emit('blur', $event)"
     />
@@ -27,7 +26,6 @@
       rows="5"
       :id="field.name"
       :name="field.name"
-      :placeholder="field.placeholder"
       :value="inputValue"
       @blur="$emit('blur', $event)"
     ></textarea>
@@ -58,7 +56,6 @@
       :id="getCellId(field)"
       :name="getCellId(field)"
       :value="inputValue"
-      :placeholder="field.placeholder"
       @blur="$emit('blur', $event)"
       @keydown.exact="$emit('keydown', $event)"
       @paste="$emit('paste', $event)"
@@ -70,7 +67,6 @@
       :class="valid ? 'form-control' : 'form-control invalid'"
       :id="getCellId(field)"
       :name="getCellId(field)"
-      :placeholder="field.placeholder"
       :value="inputValue"
       @keydown.exact="$emit('keydown', $event)"
       @blur="$emit('blur', $event)"
