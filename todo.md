@@ -16,12 +16,14 @@
 - [x] Field validation
 
 - [x] Fix material icons rendering
-- [ ] Switch output to TSV
+- [x] Switch output to TSV
+- [x] Switch template description to use `checklist_overview.json`
+- [ ] Implement template selection (tool XML or client??)
+    - Client
+- [ ] Rebuild and push docker image, update tool on dev
+- [ ] Pre-submit validation tracking
+- [ ] Study form as table
 - [ ] Should required fields be displayed first in table view?
     - YES + lighter grey header for optional
 - [ ] "Submit" warning on validation failed
-- [ ] Study form as table
-- [ ] Switch tempate description to use `checklist_overview.json`
-- [ ] Implement template selection (tool XML or client??)
-    - Client
 - [ ] Load data tables as tool input

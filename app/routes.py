@@ -1,6 +1,5 @@
 """Basic Flask app."""
 
-import os
 from flask import request, jsonify
 
 from . import schema
@@ -8,14 +7,17 @@ from .app import app
 from .output import write_forms_to_file
 
 
-@app.route('/api/schema/<identifier>', methods=['GET'])
-def get_schema(identifier):
-
-    #! TOOD: frontend or api specifies template ID?
-    # identifier = os.getenv('ENA_TEMPLATE_ID')
-
+@app.route('/api/schema/template/<identifier>', methods=['GET'])
+def get_template(identifier):
     return jsonify({
-        "schema": schema.fetch(identifier),
+        "schema": schema.fetch_template(identifier),
+    })
+
+
+@app.route('/api/schema/list', methods=['GET'])
+def get_template_list():
+    return jsonify({
+        "templates": schema.fetch_template_list(),
     })
 
 
