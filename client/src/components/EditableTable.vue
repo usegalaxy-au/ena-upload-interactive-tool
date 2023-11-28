@@ -180,9 +180,26 @@
             <td>
               <code>Ctrl</code>
               +
-              <code>Z</code>
+              <code>z</code>
             </td>
             <td>Undo</td>
+          </tr>
+        </table>
+
+        <hr>
+
+        <p class="lead">Text area fields</p>
+
+        <table class="modal-help">
+          <tr>
+            <td>
+              <code>Shift</code>
+              +
+              <code>Enter</code>
+            </td>
+            <td>
+              New line
+            </td>
           </tr>
         </table>
       </template>
