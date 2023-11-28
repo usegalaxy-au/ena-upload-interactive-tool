@@ -1,7 +1,7 @@
 <template>
   <h1>Study</h1>
 
-  <button class="btn btn-warning my-5" @click="this.loadExampleData">
+  <button v-if="templateId === 'ERC000011'" class="btn btn-warning my-5" @click="this.loadExampleData">
     Load example data
   </button>
 
@@ -41,6 +41,7 @@
       return {
         schema: null,
         formName: 'study',
+        templateId: null,
       }
     },
     computed: {
@@ -61,6 +62,7 @@
           })
         }
       })
+      store.getTemplateId().then( id => this.templateId = id )
     },
     methods: {
       setFieldValue(field_name, value) {

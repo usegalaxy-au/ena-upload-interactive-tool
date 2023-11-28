@@ -20,7 +20,7 @@
 - [x] Switch template description to use `checklist_overview.json`
 - [x] Implement template selection in client
 - [x] Study form as table
-- [ ] Redirect to /intro if no templateInfo
+- [x] Redirect to /intro if no templateInfo
 
 - [ ] Rebuild and push docker image, update tool on dev
 

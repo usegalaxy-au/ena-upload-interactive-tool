@@ -252,7 +252,6 @@ export default {
     },
     tableControlCssProps() {
       const topRem = 2.44 * this.data.length
-      console.log("tableControlCssProps topRem: ", topRem)
       return {
         'top': `${topRem}rem`,
       }

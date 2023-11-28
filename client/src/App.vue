@@ -49,8 +49,6 @@ export default {
   },
   methods: {
     templateChange(templateInfo) {
-      console.log("App.vue:templateChange called with templateInfo:")
-      console.log(templateInfo)
       this.templateInfo = templateInfo;
     }
   }

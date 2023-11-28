@@ -32,13 +32,15 @@
   </div>
 
   <div class="my-5" v-if="selectedTemplateInfo && selectedTemplateInfo.accession">
-    <h3>
-      {{ selectedTemplateInfo.accession }}:
-      {{ selectedTemplateInfo.name }}
-    </h3>
-    <p>
-      {{ selectedTemplateInfo.description }}
-    </p>
+    <div class="selected-template-info">
+      <h3>
+        {{ selectedTemplateInfo.accession }}:
+        {{ selectedTemplateInfo.name }}
+      </h3>
+      <p>
+        {{ selectedTemplateInfo.description }}
+      </p>
+    </div>
 
     <RouterLink class="btn btn-primary my-5" to="/study">Continue</RouterLink>
   </div>
@@ -74,7 +76,6 @@ export default {
   },
   methods: {
     async selectTemplate(event) {
-      console.log("selectTemplate called...")
       const schemaStore = useSchemaStore()
       const formStore = useFormStore()
       formStore.clearFormData()
@@ -87,3 +88,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.selected-template-info {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+</style>

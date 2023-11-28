@@ -37,7 +37,6 @@ export const useSchemaStore = defineStore('schemaData', () => {
   }
 
   async function setTemplateId(identifier) {
-    console.log(`Called setTemplateId with identifier: ${identifier}`)
     data.value.selectedTemplate = identifier
     if (identifier.length) {
       data.value.selectedTemplateInfo = await getTemplateInfo(identifier)
