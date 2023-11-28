@@ -35,7 +35,7 @@ export default {
       this.schema = await getSchema()
 
       if (!this.schema) {
-        this.$router.push('/')
+        return this.$router.push('/')
       }
 
       const formState = await getFormData()
@@ -60,7 +60,7 @@ export default {
     async submitForm() {
       post('/submit', this.data).then((res) => {
         if (res.status === 'success') {
-          this.$router.push('/success');
+          return this.$router.push('/success');
         } else {
           alert("Error submitting form")
         }

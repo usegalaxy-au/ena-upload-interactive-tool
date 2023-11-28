@@ -52,7 +52,7 @@
     mounted() {
       store.getSchema('study').then( schema => {
         if (!schema) {
-          this.$router.push('/')
+          return this.$router.push('/')
         }
         this.schema = schema
         if (!this.data.length) {
