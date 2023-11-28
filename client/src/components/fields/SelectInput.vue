@@ -5,6 +5,7 @@
     :id="getCellId()"
     :name="getCellId()"
     @keydown.exact="$event.preventDefault() && $emit('keydown', $event)"
+    @blur="$emit('blur', $event)"
   >
     <option value=""></option>
     <option v-for="option in field.cv" :key="option" :value="option" :selected="option === this.selectedValue">{{ option }}</option>

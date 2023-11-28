@@ -1,41 +1,4 @@
 <template>
-  <!-- Form view (redundant) -->
-  <div v-if="display === 'form'" class="form-group">
-    <label :for="field.name">
-      {{ this.capitalize(field.name) }}
-      <span v-if="requiredField">*</span>
-    </label>
-    <SelectInput
-      v-if="field.field_type === 'TEXT_CHOICE_FIELD'"
-      :field="field"
-      :selectedValue="inputValue"
-      @input="$emit('blur', $event)"
-    />
-    <input
-      v-if="field.field_type === 'TEXT_FIELD'"
-      type="text"
-      :class="getInputClass(field.field_type)"
-      :id="field.name"
-      :name="field.name"
-      :value="inputValue"
-      @blur="$emit('blur', $event)"
-    />
-    <textarea
-      v-if="field.field_type === 'TEXT_AREA_FIELD'"
-      class="form-control"
-      rows="5"
-      :id="field.name"
-      :name="field.name"
-      :value="inputValue"
-      @blur="$emit('blur', $event)"
-    ></textarea>
-    <small>
-      <span v-if="field.units">({{ field.units }})</span>
-      {{ field.description }}
-    </small>
-  </div>
-
-  <!-- Table view: -->
   <template v-if="display === 'table'">
     <SelectInput
       v-if="field.field_type === 'TEXT_CHOICE_FIELD'"
@@ -44,6 +7,7 @@
       :field="field"
       :rowIx="rowIx"
       :selectedValue="inputValue"
+      @focus="$emit('focus', $event)"
       @input="$emit('blur', $event)"
       @keydown.exact="$emit('keydown', $event)"
       @paste="$emit('paste', $event)"
@@ -57,6 +21,7 @@
       :name="getCellId(field)"
       :value="inputValue"
       @blur="$emit('blur', $event)"
+      @focus="$emit('focus', $event)"
       @keydown.exact="$emit('keydown', $event)"
       @paste="$emit('paste', $event)"
     />
@@ -68,8 +33,9 @@
       :id="getCellId(field)"
       :name="getCellId(field)"
       :value="inputValue"
-      @keydown.exact="$emit('keydown', $event)"
       @blur="$emit('blur', $event)"
+      @focus="$emit('focus', $event)"
+      @keydown.exact="$emit('keydown', $event)"
     ></textarea>
   </template>
 </template>
@@ -84,6 +50,7 @@ export default {
   name: 'FormField',
   emits: [
     'blur',
+    'focus',
     'keydown',
     'paste',
   ],

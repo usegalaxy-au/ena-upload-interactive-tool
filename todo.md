@@ -25,6 +25,7 @@
 - [x] Rebuild and push docker image, update tool on dev
 
 - [ ] FIX fill cell down on <select>
+- [ ] Js refresh page alert
 - [ ] Should required fields be displayed first in table view?
     - YES + lighter grey header for optional
 - [ ] Pre-submit validation tracking

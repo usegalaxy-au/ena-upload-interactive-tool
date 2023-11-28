@@ -48,6 +48,7 @@
                 :inputValue="row[field.name]"
                 :isBlankRow="isBlankRow(row)"
                 :rowIx="rowIx"
+                @focus="setFocusedCell(rowIx, field.name)"
                 @blur="setCellData(rowIx, field.name, $event.target.value)"
                 @keydown.exact="inputKeydown($event, rowIx, field.name)"
                 @paste="pasteTable($event, rowIx, field.name)"
@@ -102,7 +103,7 @@
       </div>
     </div>
 
-    <button class="btn btn-tool" @click="columnFill">
+    <button class="btn btn-tool" @click="fillDownCell">
       <span class="material-symbols-outlined">arrow_downward</span>
       <v-tooltip
         activator="parent"
@@ -265,7 +266,6 @@ export default {
       this.tableOverflow = this.$refs.tableWrapper.scrollWidth > this.$refs.tableWrapper.clientWidth
     })
     document.addEventListener('keydown', (event) => {
-      // Bind ctrl+z to setDataUndo
       if (event.ctrlKey && event.key === 'z') {
         event.preventDefault()
         this.setDataUndo()
@@ -273,6 +273,16 @@ export default {
     })
   },
   methods: {
+    setFocusedCell(rowIx, fieldName) {
+      console.log("setFocusedCell rowIx:")
+      console.log(rowIx)
+      console.log("setFocusedCell fieldName:")
+      console.log(fieldName)
+      this.lastFocused = {
+        row: rowIx,
+        field: fieldName,
+      }
+    },
     setData(data) {
       this.makeUndoCheckpoint()
       formStore.$patch( (state) => {
@@ -289,10 +299,6 @@ export default {
       }
     },
     setCellData(rowIx, fieldName, value) {
-      this.lastFocused = {
-        row: rowIx,
-        field: fieldName,
-      }
       this.makeUndoCheckpoint()
       formStore.$patch( (state) => {
         state[this.formStoreKey][rowIx][fieldName] = value
@@ -304,7 +310,7 @@ export default {
       if (!this.data.length) {
         return
       }
-      // Convert vue data to plain js:
+      // Convert vue data to plain js array
       const thisCheckpoint = this.data.map( (row) => ({...row}) )
       if (thisCheckpoint !== this.undoData[0]) {
         this.undoData = [thisCheckpoint, ...this.undoData.slice(0, UNDO_CHECKPOINT_LIMIT)]
@@ -377,7 +383,7 @@ export default {
       })
       this.setData(newData)
     },
-    columnFill() {
+    fillDownCell() {
       const newData = this.data.map( (row, rowIx) => {
         return this.schema.fields.reduce( (obj, field) => {
           if (rowIx >= this.lastFocused.row && field.name === this.lastFocused.field) {
