@@ -72,16 +72,16 @@ const EXAMPLE_DATA = {
 
 export const useFormStore = defineStore('formData', {
   state: () => ({
-    'study': [],
-    'experiment': [],
-    'run': [],
-    'sample': [],
-    'validation': {
-      'study': true,
-      'experiment': true,
-      'run': true,
-      'sample': true,
-    },
+    study: [],
+    experiment: [],
+    run: [],
+    sample: [],
+    valid: {
+      'study': false,
+      'experiment': false,
+      'run': false,
+      'sample': false,
+    }
   }),
   actions: {
     getFormData(formName) {
@@ -131,6 +131,31 @@ export const useFormStore = defineStore('formData', {
         }, 0)
       }, 0)
       return cellCount > 0
+    },
+    validate(schema) {
+      // Return list of invalid form names
+      [
+        'study',
+        'experiment',
+        'run',
+        'sample',
+      ].forEach((formName) => {
+        const formIsValid = this[formName].reduce((acc, row) => {
+          let isBlankRow = true
+          const isValidRow = schema[formName].fields.reduce((acc, field) => {
+            const cellVal = row[field.name]
+            isBlankRow = isBlankRow && cellVal.length === 0
+            const isValidCell = cellVal.length > 0 || field.cardinality === 'optional'
+            return acc && isValidCell
+          }, true)
+          return acc && (isValidRow || isBlankRow)
+        }, true)
+        this.valid[formName] = formIsValid
+      }, {})
+      return Object.keys(this.valid).reduce( (acc, formName) => {
+        if (!this.valid[formName]) acc.push(formName)
+        return acc
+      }, [])
     }
   }
 })

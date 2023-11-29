@@ -10,11 +10,22 @@
       in the proceeding tabs.
     </p>
 
-    <p class="alert alert-warning">
-      <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
-      Do not refresh your browser while using this tool. Data is not saved until you generate files in the "Finish" tab.
-      If you want to save your work, you can generate with incomplete tables and continue later with a new instance of the tool.
-    </p>
+
+    <div class="alert alert-warning">
+      <table>
+        <tr>
+          <td class="px-3">
+            <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
+          </td>
+          <td class="px-3">
+            Do not refresh your browser while using this tool. Data is not saved
+            until you generate files in the "Finish" tab. If you want to save
+            your work, you can generate with incomplete tables and continue
+            later with a new instance of the tool.
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <p v-if="hasFormData" class="alert alert-danger">
       You have entered data for this form. Changing the template will result in loss of data.

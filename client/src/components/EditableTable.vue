@@ -41,14 +41,14 @@
               :key="field.name + rowIx"
               :class="field.field_type === 'TEXT_AREA_FIELD' ? 'textarea' : ''"
             >
-              <FormField
+              <TableCell
                 display="table"
                 :field="field"
                 :ref="getInputRef(rowIx, field.name)"
                 :inputValue="row[field.name]"
                 :isBlankRow="isBlankRow(row)"
                 :rowIx="rowIx"
-                @focus="setFocusedCell(rowIx, field.name)"
+                @focus="focusCell(rowIx, field.name, $event)"
                 @blur="setCellData(rowIx, field.name, $event.target.value)"
                 @keydown.exact="inputKeydown($event, rowIx, field.name)"
                 @paste="pasteTable($event, rowIx, field.name)"
@@ -122,15 +122,6 @@
         Navigation tips
       </v-tooltip>
     </button>
-  </div>
-
-  <div class="row my-3 px-4">
-    <button class="btn btn-primary" @click="validateTable">Validate</button>
-    <span class="validity-result">
-      <span v-if="dataIsValid" class="material-symbols-outlined text-success">check_circle</span>
-      <span v-else-if="dataIsValid === false" class="material-symbols-outlined text-danger">error</span>
-      <span v-else class="material-symbols-outlined text-muted">help</span>
-    </span>
   </div>
 
   <Teleport to="body">
@@ -217,7 +208,7 @@
 </template>
 
 <script>
-import FormField from './fields/FormField.vue'
+import TableCell from './fields/TableCell.vue'
 import Modal from './Modal.vue'
 import { useFormStore } from '@/stores/forms'
 
@@ -229,12 +220,13 @@ export default {
   name: 'EditableTable',
   components: {
     Modal: Modal,
-    FormField: FormField,
+    TableCell: TableCell,
   },
   props: {
     schema: Object,
     formStoreKey: String,
   },
+  emits: ['focus'],
   data() {
     return {
       undoData: [],
@@ -273,15 +265,12 @@ export default {
     })
   },
   methods: {
-    setFocusedCell(rowIx, fieldName) {
-      console.log("setFocusedCell rowIx:")
-      console.log(rowIx)
-      console.log("setFocusedCell fieldName:")
-      console.log(fieldName)
+    focusCell(rowIx, fieldName, event) {
       this.lastFocused = {
         row: rowIx,
         field: fieldName,
       }
+      this.$emit('focus', event)
     },
     setData(data) {
       this.makeUndoCheckpoint()
@@ -495,10 +484,10 @@ export default {
       // Validate given row index
       this.schema.fields.forEach( (field) => {
         const ref = this.getInputRef(rowIx, field.name)
-        const formField = this.$refs[ref][0]
+        const tableCell = this.$refs[ref][0]
         this.isBlankRow(this.data[rowIx])
-          ? formField.valid = true
-          : formField.validate()
+          ? tableCell.valid = true
+          : tableCell.validate()
         })
     },
     validateTable() {
@@ -507,14 +496,15 @@ export default {
       this.data.forEach( (row, rowIx) => {
         this.schema.fields.forEach( (field) => {
           const ref = this.getInputRef(rowIx, field.name)
-          const formField = this.$refs[ref][0]
+          const tableCell = this.$refs[ref][0]
           const validity = this.isBlankRow(row)
-            ? formField.valid = true
-            : formField.validate()
-          this.dataIsValid && !validity && formField.focus()
+            ? tableCell.valid = true
+            : tableCell.validate()
+          this.dataIsValid && !validity && tableCell.focus()
           this.dataIsValid = this.dataIsValid && validity
         })
       })
+      return this.dataIsValid
     },
   },
 }

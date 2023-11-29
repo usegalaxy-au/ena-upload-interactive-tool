@@ -23,8 +23,8 @@
 - [x] Js refresh page alert
 - [x] Required columns displayed first in table view
 - [x] Required column th different colour
+- [x] Pre-submit validation tracking
+- [x] "Submit" warning on validation failed
 
-- [ ] Pre-submit validation tracking
-- [ ] "Submit" warning on validation failed
 - [ ] Load data tables as tool input
 - [ ] Fill row down button/action

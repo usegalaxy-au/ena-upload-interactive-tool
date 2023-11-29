@@ -47,7 +47,7 @@ import SelectInput from './SelectInput.vue'
 const VALID_FIELD_TYPES = ['TEXT_FIELD', 'TEXT_AREA_FIELD', 'TEXT_CHOICE_FIELD']
 
 export default {
-  name: 'FormField',
+  name: 'TableCell',
   emits: [
     'blur',
     'focus',

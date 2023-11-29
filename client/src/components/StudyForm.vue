@@ -1,79 +1,14 @@
 <template>
-  <h1>Study</h1>
-
-  <button v-if="templateId === 'ERC000011'" class="btn btn-warning my-5" @click="this.loadExampleData">
-    Load example data
-  </button>
-
-  <p v-if="!this.schema">Loading...</p>
-
-  <div v-else>
-    <p>{{ this.schema.description }}</p>
-
-    <EditableTable v-if="schema" :schema="schema" :formStoreKey="this.formName" />
-
-    <RouterLink class="btn btn-primary my-5" to="/experiment">Continue</RouterLink>
-
-    <!-- For debugging state: -->
-    <!-- <p>Data:</p><pre>{{ data }}</pre> -->
-
-    <!-- From debugging schema: -->
-    <!-- <p><em>Rendered from the following spec:</em></p>
-    <pre style="color: grey;">{{ this.schema }}</pre> -->
-
-  </div>
+  <BaseForm formName="study" nextRoute="/experiment" />
 </template>
 
 <script>
-  import { useSchemaStore } from '@/stores/schema'
-  import { useFormStore } from '@/stores/forms'
-  import EditableTable from '@/components/EditableTable.vue'
-
-  const store = useSchemaStore()
-  const formStore = useFormStore()
+  import BaseForm from '@/components/BaseForm.vue'
 
   export default {
     name: 'StudyForm',
     components: {
-      EditableTable: EditableTable,
+      BaseForm: BaseForm,
     },
-    data() {
-      return {
-        schema: null,
-        formName: 'study',
-        templateId: null,
-      }
-    },
-    computed: {
-      data() {
-        return formStore.getFormData(this.formName)
-      },
-    },
-    mounted() {
-      store.getSchema('study').then( schema => {
-        if (!schema) {
-          return this.$router.push('/')
-        }
-        this.schema = schema
-        if (!this.data.length) {
-          const blankRow = schema.fields.reduce( (obj, field) => ({...obj, [field.name]: ''}), {})
-          formStore.$patch( (state) => {
-            state[this.formName].push(blankRow)
-          })
-        }
-      })
-      store.getTemplateId().then( id => this.templateId = id )
-    },
-    methods: {
-      setFieldValue(field_name, value) {
-        formStore.$patch( (state) => {
-          state[this.formName][0][field_name] = value
-          state.hasChanged = true
-        })
-      },
-      loadExampleData() {
-        formStore.loadExampleData();
-      }
-    }
   }
 </script>

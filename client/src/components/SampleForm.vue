@@ -1,41 +1,14 @@
 <template>
-  <h1 class="mb-5">Sample</h1>
-
-  <p v-if="!schema">Loading...</p>
-
-  <div v-else>
-    <p>{{ schema.description }}</p>
-    <EditableTable v-if="schema" :schema="schema" :formStoreKey="this.formName" />
-    <RouterLink class="btn btn-primary my-5" to="/submit">Continue</RouterLink>
-  </div>
+  <BaseForm formName="sample" nextRoute="/submit" />
 </template>
 
-
 <script>
-  import { useSchemaStore } from '@/stores/schema'
-  import EditableTable from './EditableTable.vue'
-
-  const schemaStore = useSchemaStore()
+  import BaseForm from '@/components/BaseForm.vue'
 
   export default {
     name: 'SampleForm',
     components: {
-      EditableTable: EditableTable,
-    },
-    data() {
-      return {
-        schema: null,
-        formName: 'sample',
-      }
-    },
-    mounted() {
-      schemaStore.getSchema(this.formName)
-        .then( data => {
-          if (!data) {
-            return this.$router.push('/')
-          }
-          this.schema = data
-        })
+      BaseForm: BaseForm,
     },
   }
 </script>

@@ -5,6 +5,28 @@
     files which will be available in your Galaxy history after the tool
     terminates (&lt; 10 seconds).
   </p>
+
+  <div v-if="invalidForms.length" class="alert alert-warning">
+    <table>
+      <tr>
+        <td class="px-3">
+          <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
+        </td>
+        <td class="px-3">
+          <b>Invalid forms: "{{ invalidForms.join('", "') }}"</b>.
+          The entered data is not valid for ENA submission. You may continue, but
+          this should be fixed before proceeding to ENA upload.
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div v-else>
+    <p class="alert alert-success">
+      Your data is valid for ENA submission
+    </p>
+  </div>
+
   <button class="btn btn-primary" @click="submitForm">Generate</button>
 
   <!-- For debugging state: -->
@@ -17,28 +39,34 @@ import { useFormStore } from '@/stores/forms.js';
 import { useSchemaStore } from '@/stores/schema.js';
 import { post } from '@/utils/api.js';
 
+const formStore = useFormStore()
+const schemaStore = useSchemaStore()
+
 export default {
   name: 'SubmitPage',
   data() {
     return {
       data: null,
       schema: null,
+      invalidForms: [],
     }
   },
   mounted() {
-    this.getData().then( d => this.data = d )
+    this.getData().then( data => {
+      this.data = data
+      this.invalidForms = formStore.validate(data.schema)
+    })
+
   },
   methods: {
     async getData() {
-      const { getFormData } = useFormStore()
-      const { getSchema } = useSchemaStore()
-      this.schema = await getSchema()
+      this.schema = await schemaStore.getSchema()
 
       if (!this.schema) {
         return this.$router.push('/')
       }
 
-      const formState = await getFormData()
+      const formState = await formStore.getFormData()
       const cleaned_forms = this.clean_forms(formState)
       return {
         ...cleaned_forms,
