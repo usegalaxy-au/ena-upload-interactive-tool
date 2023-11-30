@@ -13,7 +13,7 @@
           <span class="material-symbols-outlined">warning</span>
         </td>
         <td class="px-3">
-          <b>Invalid forms: "{{ invalidForms.join('", "') }}"</b>.
+          <b>Invalid tables: "{{ invalidForms.join('", "') }}"</b>.
           The entered data is not valid for ENA submission. You can still generate
           these tables, but they must be completed before proceeding to ENA upload.
           To continue editing these table with this tool, you will need to remember

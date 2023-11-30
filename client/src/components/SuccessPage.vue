@@ -1,7 +1,11 @@
 <template>
-  <h1>Forms created successfully</h1>
-  <p>You should find the ENA forms in your Galaxy history in a few seconds.</p>
-  <p>You can now close this page and return to Galaxy.</p>
+  <h1>Tables created successfully</h1>
+
+  <p class="alert alert-success">
+    You should find the ENA tables in your Galaxy history in a few seconds.
+    <br>
+    You can now close this page and return to Galaxy.
+  </p>
 
   <p class="lead">
     App terminating in {{ secondsToTerminate }}...

@@ -7,7 +7,7 @@
       which ensure that the data are valid for ENA upload.
       Once completed, this tool will output four tables (Study, Experiment, Run and Sample)
       to your Galaxy History, which can be used as inputs for the ENA upload tool.
-      First choose a metadata template, then continue to fill out the metadata for your dataset(s)
+      First choose a metadata template, then fill out the metadata for your dataset(s)
       in the proceeding tabs.
     </p>
 
@@ -29,7 +29,7 @@
     </div>
 
     <p v-if="!userUpload && hasFormData" class="alert alert-danger">
-      You have entered data for this form. Changing the template will result in loss of data if the schema does not match.
+      You have entered data for this template. Changing the template will result in loss of data if the schema does not match.
     </p>
 
     <p v-if="userUpload && !templateMatchErrorMsg" class="alert alert-success">
