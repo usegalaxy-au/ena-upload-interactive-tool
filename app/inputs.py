@@ -16,6 +16,7 @@ def get_input_data():
     input_data = {}
     for key, path in INPUT_FILE_PATHS.items():
         if path:
+            print(f"Loading {key} data from {path}...")
             input_data[key] = _read_table(path)
         else:
             input_data[key] = []

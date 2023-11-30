@@ -10,12 +10,14 @@
     <table>
       <tr>
         <td class="px-3">
-          <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
+          <span class="material-symbols-outlined">warning</span>
         </td>
         <td class="px-3">
           <b>Invalid forms: "{{ invalidForms.join('", "') }}"</b>.
-          The entered data is not valid for ENA submission. You may continue, but
-          this should be fixed before proceeding to ENA upload.
+          The entered data is not valid for ENA submission. You can still generate
+          these tables, but they must be completed before proceeding to ENA upload.
+          To continue editing these table with this tool, you will need to remember
+          the template ID that was used to generate them.
         </td>
       </tr>
     </table>
@@ -23,7 +25,7 @@
 
   <div v-else>
     <p class="alert alert-success">
-      Your data is valid for ENA submission
+      Your data are valid for ENA submission
     </p>
   </div>
 

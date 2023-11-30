@@ -25,6 +25,14 @@
 - [x] Required column th different colour
 - [x] Pre-submit validation tracking
 - [x] "Submit" warning on validation failed
+- [x] Load data tables as tool input
+- [x] Validate selected template schema against formData and warn purge on mismatch
 
-- [ ] Load data tables as tool input
+- [ ] Remove "Load example data" button?
+
 - [ ] Fill row down button/action
+
+
+# Future
+
+- [ ] Automatically determine which templates match user input tables? (requires fetching all templates from GitHub)

@@ -1,4 +1,7 @@
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { get } from '@/utils/api'
+
 
 const EXAMPLE_DATA = {
   study: [
@@ -70,12 +73,15 @@ const EXAMPLE_DATA = {
   }],
 }
 
+let fetched = ref(false)
+
 export const useFormStore = defineStore('formData', {
   state: () => ({
     study: [],
     experiment: [],
     run: [],
     sample: [],
+    userUpload: null,
     valid: {
       'study': false,
       'experiment': false,
@@ -84,6 +90,27 @@ export const useFormStore = defineStore('formData', {
     }
   }),
   actions: {
+    fetchUserData() {
+      if (!fetched.value) {
+        return get('/data').then((data) => {
+          const totalRowCount = Object.keys(data).reduce( (count, key) => count + data[key].length, 0 )
+          if (!totalRowCount) {
+            this.userUpload = false
+          } else {
+            this.study = data.study
+            this.experiment = data.experiment
+            this.run = data.run
+            this.sample = data.sample
+            this.userUpload = true
+          }
+          fetched.value = true
+          return this.userUpload
+        })
+      }
+      return new Promise((resolve) => {
+        resolve(this.userUpload)
+      })
+    },
     getFormData(formName) {
       if (formName) {
         return this[formName]
@@ -140,6 +167,7 @@ export const useFormStore = defineStore('formData', {
         'run',
         'sample',
       ].forEach((formName) => {
+        let hasNonBlankRow = false
         const formIsValid = this[formName].reduce((acc, row) => {
           let isBlankRow = true
           const isValidRow = schema[formName].fields.reduce((acc, field) => {
@@ -147,10 +175,11 @@ export const useFormStore = defineStore('formData', {
             isBlankRow = isBlankRow && cellVal.length === 0
             const isValidCell = cellVal.length > 0 || field.cardinality === 'optional'
             return acc && isValidCell
-          }, true)
+          }, true) && this[formName].length
+          hasNonBlankRow = !isBlankRow || hasNonBlankRow
           return acc && (isValidRow || isBlankRow)
         }, true)
-        this.valid[formName] = formIsValid
+        this.valid[formName] = formIsValid && hasNonBlankRow
       }, {})
       return Object.keys(this.valid).reduce( (acc, formName) => {
         if (!this.valid[formName]) acc.push(formName)

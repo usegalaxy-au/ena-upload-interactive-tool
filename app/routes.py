@@ -9,7 +9,7 @@ from .inputs import get_input_data
 
 
 @app.route('/api/data', methods=['GET'])
-def get_user_data(identifier):
+def get_user_data():
     """Get pre-filled data from user input. May be null."""
     return jsonify(get_input_data())
 

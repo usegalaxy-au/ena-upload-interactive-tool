@@ -24,7 +24,7 @@
           <table>
             <tr>
               <td class="px-3">
-                <span class="material-symbols-outlined" style="transform: translateY(0.25rem);">warning</span>
+                <span class="material-symbols-outlined">warning</span>
               </td>
               <td class="px-3">
                 The entered data is not valid for ENA submission. You may continue, but

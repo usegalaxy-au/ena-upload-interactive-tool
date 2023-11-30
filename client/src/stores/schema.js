@@ -48,6 +48,7 @@ export const useSchemaStore = defineStore('schemaData', () => {
   }
 
   async function setTemplateId(identifier) {
+    fetched.value = false
     data.value.selectedTemplate = identifier
     if (identifier.length) {
       data.value.selectedTemplateInfo = await getTemplateInfo(identifier)
