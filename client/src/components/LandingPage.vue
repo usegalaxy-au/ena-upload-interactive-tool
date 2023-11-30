@@ -1,5 +1,5 @@
 <template>
-  <h1>ENA upload metadata templates</h1>
+  <h1>ENA upload metadata table builder</h1>
 
   <div class="my-5">
     <p>
