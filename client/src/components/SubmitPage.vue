@@ -14,10 +14,13 @@
         </td>
         <td class="px-3">
           <b>Invalid tables: "{{ invalidForms.join('", "') }}"</b>.
-          The entered data is not valid for ENA submission. You can still generate
+          The entered data are not valid for the selected metadata checklist and
+          will not be accepted for submission by the ENA. You can still generate
           these tables, but they must be completed before proceeding to ENA upload.
-          To continue editing these table with this tool, you will need to remember
-          the template ID that was used to generate them.
+          <b>
+            To continue editing these table with this tool, you will need to
+            remember the metadata checklist that was used to generate them.
+          </b>
         </td>
       </tr>
     </table>
