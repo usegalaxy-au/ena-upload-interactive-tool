@@ -1,4 +1,5 @@
-<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5">
+<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" version="0.1.0+galaxy0" profile="22.5">
+<!-- <tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5"> -->
     <description>create tables for the ENA upload tool from metadata templates</description>
     <requirements>
         <container type="docker">neoformit/ena-upload:v1.0</container>
@@ -10,28 +11,53 @@
     </entry_points>
     <command detect_errors="exit_code"><![CDATA[
 
-#set ena_output_study = "/app/study_table.tsv"
-#set ena_output_experiment = "/app/experiment_table.tsv"
-#set ena_output_run = "/app/run_table.tsv"
-#set ena_output_sample = "/app/sample_table.tsv"
+## When these files are created, the app will automatically terminate:
+#set temp_output_study = "/app/study_table.tsv"
+#set temp_output_experiment = "/app/experiment_table.tsv"
+#set temp_output_run = "/app/run_table.tsv"
+#set temp_output_sample = "/app/sample_table.tsv"
 
-ENA_OUTPUT_STUDY='$ena_output_study'
-ENA_OUTPUT_EXPERIMENT='$ena_output_experiment'
-ENA_OUTPUT_RUN='$ena_output_run'
-ENA_OUTPUT_SAMPLE='$ena_output_sample'
+#if $input_study_table:
+ENA_INPUT_STUDY='$input_study_table'
+#end if
+#if $input_experiment_table:
+ENA_INPUT_EXPERIMENT='$input_experiment_table'
+#end if
+#if $input_run_table:
+ENA_INPUT_RUN='$input_run_table'
+#end if
+#if $input_sample_table:
+ENA_INPUT_SAMPLE='$input_sample_table'
+#end if
+
+ENA_OUTPUT_STUDY='$temp_output_study'
+ENA_OUTPUT_EXPERIMENT='$temp_output_experiment'
+ENA_OUTPUT_RUN='$temp_output_run'
+ENA_OUTPUT_SAMPLE='$temp_output_sample'
 /app/run.sh
 
-&& cp $ena_output_study      '${study_table}'
-&& cp $ena_output_experiment '${experiment_table}'
-&& cp $ena_output_run        '${run_table}'
-&& cp $ena_output_sample     '${sample_table}'
+&& cp $temp_output_study      '${output_study_table}'
+&& cp $temp_output_experiment '${output_experiment_table}'
+&& cp $temp_output_run        '${output_run_table}'
+&& cp $temp_output_sample     '${output_sample_table}'
 
     ]]></command>
+    <inputs>
+        <conditional name="input_tsv">
+        <param name="select_input_tsvs" type="boolean" checked="false" label="Edit existing tables" help="If you have partially-filled tables that you would like to complete, you can pass them to the app. You will need to know which metadata template your tables have been built against, and select it when the tool launches. It is HIGHLY recommended that these files come from a previous run of this tool, but any table will work if the schema is correct. You do not have to pass all four table if you don't have data for all of them." />
+            <when value="true">
+                <param name="input_study_table" type="data" format="tabular" label="Study table" optional="true" />
+                <param name="input_experiment_table" type="data" format="tabular" label="Experiment table" optional="true" />
+                <param name="input_run_table" type="data" format="tabular" label="Run table" optional="true" />
+                <param name="input_sample_table" type="data" format="tabular" label="Sample table" optional="true" />
+            </when>
+        </conditional>
+    </inputs>
     <outputs>
-        <data name="study_table" label="Study table" format="tabular" />
-        <data name="experiment_table" label="Experiment table" format="tabular" />
-        <data name="run_table" label="Run table" format="tabular" />
-        <data name="sample_table" label="Sample table" format="tabular" />
+        <data name="output_study_table" label="Study table" format="tabular" />
+        <data name="output_experiment_table" label="Experiment table" format="tabular" />
+        <data name="output_run_table" label="Run table" format="tabular" />
+        <data name="output_sample_table" label="Sample table" format="tabular" />
     </outputs>
     <help>
 <![CDATA[

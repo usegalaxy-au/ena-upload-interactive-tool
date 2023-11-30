@@ -4,7 +4,14 @@ from flask import request, jsonify
 
 from . import schema
 from .app import app
-from .output import write_forms_to_file
+from .outputs import write_forms_to_file
+from .inputs import get_input_data
+
+
+@app.route('/api/data', methods=['GET'])
+def get_user_data(identifier):
+    """Get pre-filled data from user input. May be null."""
+    return jsonify(get_input_data())
 
 
 @app.route('/api/schema/template/<identifier>', methods=['GET'])
