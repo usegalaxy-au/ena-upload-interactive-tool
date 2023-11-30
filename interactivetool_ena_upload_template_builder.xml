@@ -1,4 +1,5 @@
-<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5">
+<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" version="0.1.0+galaxy0" profile="22.5">
+<!-- <tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5"> -->
     <description>create tables for the ENA upload tool from metadata templates</description>
     <requirements>
         <container type="docker">neoformit/ena-upload:v1.0</container>
@@ -16,17 +17,19 @@
 #set temp_output_run = "/app/run_table.tsv"
 #set temp_output_sample = "/app/sample_table.tsv"
 
-#if $input_study_table:
-ENA_INPUT_STUDY='$input_study_table'
-#end if
-#if $input_experiment_table:
-ENA_INPUT_EXPERIMENT='$input_experiment_table'
-#end if
-#if $input_run_table:
-ENA_INPUT_RUN='$input_run_table'
-#end if
-#if $input_sample_table:
-ENA_INPUT_SAMPLE='$input_sample_table'
+#if $input_tsv.select_input_tsvs:
+    #if $input_tsv.input_study_table:
+        ENA_INPUT_STUDY='$input_tsv.input_study_table'
+    #end if
+    #if $input_tsv.input_experiment_table:
+        ENA_INPUT_EXPERIMENT='$input_tsv.input_experiment_table'
+    #end if
+    #if $input_tsv.input_run_table:
+        ENA_INPUT_RUN='$input_tsv.input_run_table'
+    #end if
+    #if $input_tsv.input_sample_table:
+        ENA_INPUT_SAMPLE='$input_tsv.input_sample_table'
+    #end if
 #end if
 
 ENA_OUTPUT_STUDY='$temp_output_study'
