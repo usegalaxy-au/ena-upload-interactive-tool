@@ -1,5 +1,4 @@
-<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" version="0.1.0+galaxy0" profile="22.5">
-<!-- <tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5"> -->
+<tool id="interactive_tool_ena_upload_templates" name="ENA upload template builder" tool_type="interactive" version="0.1.0+galaxy0" profile="22.5">
     <description>create tables for the ENA upload tool from metadata templates</description>
     <requirements>
         <container type="docker">neoformit/ena-upload:v1.0</container>
